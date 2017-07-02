@@ -135,13 +135,7 @@ tests.test_nn_keep_prob_inputs(neural_net_keep_prob_input)
 def conv2d_maxpool(x_tensor, conv_num_outputs, conv_ksize, conv_strides, pool_ksize, pool_strides):
     """
     Apply convolution then max pooling to x_tensor
-    :param x_tensor: TensorFlow Tensor
-    :param conv_num_outputs: Number of outputs for the convolutional layer
-    :param conv_ksize: kernal size 2-D Tuple for the convolutional layer
-    :param conv_strides: Stride 2-D Tuple for convolution
-    :param pool_ksize: kernal size 2-D Tuple for pool
-    :param pool_strides: Stride 2-D Tuple for pool
-    : return: A tensor that represents convolution and max pooling of x_tensor
+    return: A tensor that represents convolution and max pooling of x_tensor
     """
     global fw
     global fb
@@ -166,8 +160,7 @@ tests.test_con_pool(conv2d_maxpool)
 def flatten(x_tensor):
     """
     Flatten x_tensor to (Batch Size, Flattened Image Size)
-    : x_tensor: A tensor of size (Batch Size, ...), where ... are the image dimensions.
-    : return: A tensor of size (Batch Size, Flattened Image Size).
+    return: A tensor of size (Batch Size, Flattened Image Size).
     """
     fi_size = x_tensor.get_shape().as_list()[1]*x_tensor.get_shape().as_list()[2]*x_tensor.get_shape().as_list()[3]
     flt = tf.reshape(x_tensor,[-1,fi_size])
@@ -181,9 +174,7 @@ tests.test_flatten(flatten)
 def fully_conn(x_tensor, num_outputs):
     """
     Apply a fully connected layer to x_tensor using weight and bias
-    : x_tensor: A 2-D tensor where the first dimension is batch size.
-    : num_outputs: The number of output that the new tensor should be.
-    : return: A 2-D tensor where the second dimension is num_outputs.
+    return: A 2-D tensor where the second dimension is num_outputs.
     """
     wd1 = tf.Variable(tf.random_normal([x_tensor.get_shape().as_list()[1],num_outputs]))
     bd1 = tf.Variable(tf.random_normal([num_outputs]))
@@ -197,9 +188,7 @@ tests.test_fully_conn(fully_conn)
 def output(x_tensor, num_outputs):
     """
     Apply a output layer to x_tensor using weight and bias
-    : x_tensor: A 2-D tensor where the first dimension is batch size.
-    : num_outputs: The number of output that the new tensor should be.
-    : return: A 2-D tensor where the second dimension is num_outputs.
+    return: A 2-D tensor where the second dimension is num_outputs.
     """
     wd2 = tf.Variable(tf.random_normal([x_tensor.get_shape().as_list()[1],num_outputs]))
     bd2 = tf.Variable(tf.random_normal([num_outputs]))
@@ -213,9 +202,7 @@ tests.test_output(output)
 def conv_net(x, keep_prob):
     """
     Create a convolutional neural network model
-    : x: Placeholder tensor that holds image data.
-    : keep_prob: Placeholder tensor that hold dropout keep probability.
-    : return: Tensor that represents logits
+    return: Tensor that represents logits
     """
     #    conv2d_maxpool(x_tensor, conv_num_outputs, conv_ksize, conv_strides, pool_ksize, pool_strides)
     # ===layer 1====
@@ -272,11 +259,6 @@ tests.test_conv_net(conv_net)
 def train_neural_network(session, optimizer, keep_probability, feature_batch, label_batch):
     """
     Optimize the session on a batch of images and labels
-    : session: Current TensorFlow session
-    : optimizer: TensorFlow optimizer function
-    : keep_probability: keep probability
-    : feature_batch: Batch of Numpy image data
-    : label_batch: Batch of Numpy label data
     """
     session.run(optimizer,feed_dict={
         x: feature_batch,
@@ -292,11 +274,6 @@ tests.test_train_nn(train_neural_network)
 def print_stats(session, feature_batch, label_batch, cost, accuracy):
     """
     Print information about loss and validation accuracy
-    : session: Current TensorFlow session
-    : feature_batch: Batch of Numpy image data
-    : label_batch: Batch of Numpy label data
-    : cost: TensorFlow cost function
-    : accuracy: TensorFlow accuracy function
     """
     loss = session.run(cost,feed_dict={
         x: feature_batch,
@@ -415,5 +392,3 @@ def test_model():
 
 
 test_model()
-
-
