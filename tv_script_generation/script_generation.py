@@ -1,8 +1,8 @@
-import helper
+import preprocess
 import numpy as np
 
 data_dir = './data/simpsons/moes_tavern_lines.txt'
-text = helper.load_data(data_dir)
+text = preprocess.load_data(data_dir)
 text = text[81:]
 
 
@@ -56,15 +56,15 @@ tests.test_tokenize(token_lookup)
 
 
 # Preprocess Training, Validation, and Testing Data
-helper.preprocess_and_save_data(data_dir, token_lookup, create_lookup_tables)
+preprocess.preprocess_and_save_data(data_dir, token_lookup, create_lookup_tables)
 
 
 
-import helper
+import prerocess
 import numpy as np
 import problem_unittests as tests
 
-int_text, vocab_to_int, int_to_vocab, token_dict = helper.load_preprocess()
+int_text, vocab_to_int, int_to_vocab, token_dict = preprocess.load_preprocess()
 
 
 
