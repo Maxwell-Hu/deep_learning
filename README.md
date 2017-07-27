@@ -1,3 +1,2 @@
 # deep_learning
-Port: 8890
-Path: /home/max/github
+  每个文件夹下包含一个小项目
