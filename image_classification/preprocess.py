@@ -5,16 +5,10 @@ from sklearn.preprocessing import LabelBinarizer
 
 
 def _load_label_names():
-    """
-    Load the label names from file
-    """
     return ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
 
 
 def load_cfar10_batch(cifar10_dataset_folder_path, batch_id):
-    """
-    Load a batch of the dataset
-    """
     with open(cifar10_dataset_folder_path + '/data_batch_' + str(batch_id), mode='rb') as file:
         batch = pickle.load(file, encoding='latin1')
 
@@ -25,9 +19,6 @@ def load_cfar10_batch(cifar10_dataset_folder_path, batch_id):
 
 
 def display_stats(cifar10_dataset_folder_path, batch_id, sample_id):
-    """
-    Display Stats of the the dataset
-    """
     batch_ids = list(range(1, 6))
 
     if batch_id not in batch_ids:
@@ -58,9 +49,6 @@ def display_stats(cifar10_dataset_folder_path, batch_id, sample_id):
 
 
 def _preprocess_and_save(normalize, one_hot_encode, features, labels, filename):
-    """
-    Preprocess data and save it to file
-    """
     features = normalize(features)
     labels = one_hot_encode(labels)
 
@@ -68,9 +56,6 @@ def _preprocess_and_save(normalize, one_hot_encode, features, labels, filename):
 
 
 def preprocess_and_save_data(cifar10_dataset_folder_path, normalize, one_hot_encode):
-    """
-    Preprocess Training and Validation Data
-    """
     n_batches = 5
     valid_features = []
     valid_labels = []
@@ -79,7 +64,7 @@ def preprocess_and_save_data(cifar10_dataset_folder_path, normalize, one_hot_enc
         features, labels = load_cfar10_batch(cifar10_dataset_folder_path, batch_i)
         validation_count = int(len(features) * 0.1)
 
-        # Prprocess and save a batch of training data
+        # 预处理并保存training data
         _preprocess_and_save(
             normalize,
             one_hot_encode,
@@ -87,11 +72,11 @@ def preprocess_and_save_data(cifar10_dataset_folder_path, normalize, one_hot_enc
             labels[:-validation_count],
             'preprocess_batch_' + str(batch_i) + '.p')
 
-        # Use a portion of training batch for validation
+        # validation data
         valid_features.extend(features[-validation_count:])
         valid_labels.extend(labels[-validation_count:])
 
-    # Preprocess and Save all validation data
+    # 预处理并保存validation data
     _preprocess_and_save(
         normalize,
         one_hot_encode,
@@ -102,11 +87,11 @@ def preprocess_and_save_data(cifar10_dataset_folder_path, normalize, one_hot_enc
     with open(cifar10_dataset_folder_path + '/test_batch', mode='rb') as file:
         batch = pickle.load(file, encoding='latin1')
 
-    # load the training data
+    # 加载training data
     test_features = batch['data'].reshape((len(batch['data']), 3, 32, 32)).transpose(0, 2, 3, 1)
     test_labels = batch['labels']
 
-    # Preprocess and Save all training data
+    # 预处理并保存training data
     _preprocess_and_save(
         normalize,
         one_hot_encode,
@@ -117,7 +102,7 @@ def preprocess_and_save_data(cifar10_dataset_folder_path, normalize, one_hot_enc
 
 def batch_features_labels(features, labels, batch_size):
     """
-    Split features and labels into batches
+    获取batches
     """
     for start in range(0, len(features), batch_size):
         end = min(start + batch_size, len(features))
@@ -125,13 +110,9 @@ def batch_features_labels(features, labels, batch_size):
 
 
 def load_preprocess_training_batch(batch_id, batch_size):
-    """
-    Load the Preprocessed Training data and return them in batches of <batch_size> or less
-    """
     filename = 'preprocess_batch_' + str(batch_id) + '.p'
     features, labels = pickle.load(open(filename, mode='rb'))
 
-    # Return the training data in batches of size <batch_size> or less
     return batch_features_labels(features, labels, batch_size)
 
 
